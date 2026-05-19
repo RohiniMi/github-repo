@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API = "http://172.16.49.19:5000/students";
+const API = "https://github-repo-xlbk.onrender.com/students";
 
 export default function App() {
+
   const [students, setStudents] = useState([]);
 
   const [form, setForm] = useState({
@@ -13,56 +14,76 @@ export default function App() {
     admission: "",
     email: "",
     sem: "",
-    githubRepo: "",
+    github: "",
   });
 
   const [editingId, setEditingId] = useState(null);
 
+  // Fetch students
   const fetchStudents = async () => {
-    const res = await axios.get(API);
-    setStudents(res.data);
+    try {
+      const res = await axios.get(API);
+      setStudents(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     fetchStudents();
   }, []);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  // Handle input change
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  // Add / Update student
   const submit = async () => {
+
     if (Object.values(form).some((v) => v === "")) {
       alert("Fill all fields!");
       return;
     }
 
-    if (editingId) {
-      await axios.put(`${API}/${editingId}`, form);
-      setEditingId(null);
-    } else {
-      await axios.post(API, form);
+    try {
+
+      if (editingId) {
+        await axios.put(`${API}/${editingId}`, form);
+        setEditingId(null);
+      } else {
+        await axios.post(API, form);
+      }
+
+      setForm({
+        name: "",
+        roll: "",
+        admission: "",
+        email: "",
+        sem: "",
+        github: "",
+      });
+
+      fetchStudents();
+
+    } catch (error) {
+      console.log(error);
     }
-
-    setForm({
-      name: "",
-      roll: "",
-      admission: "",
-      email: "",
-      sem: "",
-      githubRepo: "",
-    });
-
-    fetchStudents();
   };
 
+  // Edit student
   const editStudent = (s) => {
+
     setForm({
       name: s.name,
       roll: s.roll,
       admission: s.admission,
       email: s.email,
       sem: s.sem,
-      githubRepo: s.githubRepo,
+      github: s.github,
     });
 
     setEditingId(s.id);
@@ -132,16 +153,21 @@ export default function App() {
             />
 
             <input
-              name="githubRepo"
+              name="github"
               placeholder="GitHub Repository URL"
-              value={form.githubRepo}
+              value={form.github}
               onChange={handleChange}
             />
+
           </div>
 
-          <button className="submit-btn" onClick={submit}>
+          <button
+            className="submit-btn"
+            onClick={submit}
+          >
             {editingId ? "Update Student" : "Add Student"}
           </button>
+
         </div>
 
         {/* Table */}
@@ -171,7 +197,10 @@ export default function App() {
               <tbody>
 
                 {students.map((s, index) => (
-                  <tr key={s.id} className={index % 2 === 0 ? "even" : "odd"}>
+                  <tr
+                    key={s.id}
+                    className={index % 2 === 0 ? "even" : "odd"}
+                  >
 
                     <td className="name">{s.name}</td>
 
@@ -185,7 +214,7 @@ export default function App() {
 
                     <td>
                       <a
-                        href={s.githubRepo}
+                        href={s.github}
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -208,9 +237,13 @@ export default function App() {
               </tbody>
 
             </table>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }
