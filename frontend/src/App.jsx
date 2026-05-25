@@ -92,9 +92,9 @@ export default function App() {
 
     setEditingId(s.id);
   };
-  // const deleteStudent = (s)=>{
-  //   setStudents(students.filter((stu)=> stu.id !=s.id));
-  // }
+  const deleteStudent = (s)=>{
+    setStudents(students.filter((stu)=> stu.id !=s.id));
+  }
   return (
     <div className="app">
 
@@ -265,11 +265,11 @@ export default function App() {
                         Edit
                       </button>
                     </td>
-                      {/* <td>
+                      <td>
                       <button className="dlt-btn"  onClick={() => deleteStudent(s)} >
                         Delete
                       </button>
-                    </td> */}
+                    </td>
 
                   </tr>
                 ))}
