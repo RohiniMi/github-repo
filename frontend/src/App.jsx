@@ -15,6 +15,8 @@ export default function App() {
     email: "",
     sem: "",
     github: "",
+    projectRepo: "",
+    st1PracticalRepo: ""
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -43,14 +45,12 @@ export default function App() {
 
   // Add / Update student
   const submit = async () => {
-
     if (Object.values(form).some((v) => v === "")) {
       alert("Fill all fields!");
       return;
     }
 
     try {
-
       if (editingId) {
         await axios.put(`${API}/${editingId}`, form);
         setEditingId(null);
@@ -65,6 +65,8 @@ export default function App() {
         email: "",
         sem: "",
         github: "",
+        projectRepo: "",
+        st1PracticalRepo: ""
       });
 
       fetchStudents();
@@ -84,11 +86,15 @@ export default function App() {
       email: s.email,
       sem: s.sem,
       github: s.github,
+      projectRepo: s.projectRepo,
+      st1PracticalRepo: s.st1PracticalRepo
     });
 
     setEditingId(s.id);
   };
-
+  // const deleteStudent = (s)=>{
+  //   setStudents(students.filter((stu)=> stu.id !=s.id));
+  // }
   return (
     <div className="app">
 
@@ -158,6 +164,18 @@ export default function App() {
               value={form.github}
               onChange={handleChange}
             />
+            <input
+              name="projectRepo"
+              placeholder="WEB Designing Project Repository URL"
+              value={form.projectRepo}
+              onChange={handleChange}
+            />
+            <input
+              name="st1PracticalRepo"
+              placeholder="ST1 Practical Repository URL"
+              value={form.st1PracticalRepo}
+              onChange={handleChange}
+            />
 
           </div>
 
@@ -190,6 +208,8 @@ export default function App() {
                   <th>Email</th>
                   <th>Branch</th>
                   <th>GitHub</th>
+                  <th>WEBD Project REPO</th>
+                  <th>ST1 Practical REPO</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -220,16 +240,36 @@ export default function App() {
                       >
                         Open Repo
                       </a>
+                      </td>
+                      <td>
+                      <a
+                        href={s.projectRepo}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open Repo
+                      </a>
+                      </td>
+                      <td>
+                      <a
+                        href={s.st1PracticalRepo}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open Repo
+                      </a>
                     </td>
 
                     <td>
-                      <button
-                        className="edit-btn"
-                        onClick={() => editStudent(s)}
-                      >
+                      <button className="edit-btn"  onClick={() => editStudent(s)} >
                         Edit
                       </button>
                     </td>
+                      {/* <td>
+                      <button className="dlt-btn"  onClick={() => deleteStudent(s)} >
+                        Delete
+                      </button>
+                    </td> */}
 
                   </tr>
                 ))}
