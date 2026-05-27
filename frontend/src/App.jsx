@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API = "http://localhost:5000/students";
+const API = "https://github-repo-xlbk.onrender.com/students";
 
 export default function App() {
 
