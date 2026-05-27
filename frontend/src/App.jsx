@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API = "https://github-repo-xlbk.onrender.com/students";
+const API = "http://localhost:5000/students";
 
 export default function App() {
 
@@ -16,7 +16,7 @@ export default function App() {
     sem: "",
     github: "",
     projectRepo: "",
-    st1PracticalRepo: ""
+    st1Repo: ""
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -66,7 +66,7 @@ export default function App() {
         sem: "",
         github: "",
         projectRepo: "",
-        st1PracticalRepo: ""
+        st1Repo: ""
       });
 
       fetchStudents();
@@ -87,7 +87,7 @@ export default function App() {
       sem: s.sem,
       github: s.github,
       projectRepo: s.projectRepo,
-      st1PracticalRepo: s.st1PracticalRepo
+      st1Repo: s.st1Repo
     });
 
     setEditingId(s.id);
@@ -97,20 +97,14 @@ export default function App() {
   // }
   return (
     <div className="app">
-
       <div className="container">
-
         {/* Header */}
-
         <div className="header">
           <h1>Student Dashboard</h1>
           <p>Manage students and monitor GitHub repositories</p>
         </div>
-
         {/* Form */}
-
         <div className="form-card">
-
           <div className="form-top">
             <h2>
               {editingId ? "Update Student" : "Add Student"}
@@ -171,9 +165,9 @@ export default function App() {
               onChange={handleChange}
             />
             <input
-              name="st1PracticalRepo"
+              name="st1Repo"
               placeholder="ST1 Practical Repository URL"
-              value={form.st1PracticalRepo}
+              value={form.st1Repo}
               onChange={handleChange}
             />
 
@@ -252,7 +246,7 @@ export default function App() {
                       </td>
                       <td>
                       <a
-                        href={s.st1PracticalRepo}
+                        href={s.st1Repo}
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -265,11 +259,7 @@ export default function App() {
                         Edit
                       </button>
                     </td>
-                      <td>
-                      <button className="dlt-btn"  onClick={() => deleteStudent(s)} >
-                        Delete
-                      </button>
-                    </td>
+                      
 
                   </tr>
                 ))}
